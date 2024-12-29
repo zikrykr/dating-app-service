@@ -12,10 +12,9 @@ import (
 )
 
 type HTTPResponse struct {
-	Success    bool        `json:"success"`
-	Message    string      `json:"message"`
-	Data       interface{} `json:"data,omitempty"`
-	Pagination *Pagination `json:"pagination,omitempty"`
+	Success bool        `json:"success"`
+	Message string      `json:"message"`
+	Data    interface{} `json:"data,omitempty"`
 }
 
 func ResponseError(c *gin.Context, code int, err error) {

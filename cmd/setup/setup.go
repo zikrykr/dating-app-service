@@ -42,6 +42,7 @@ type initRepositoriesApp struct {
 type initServicesApp struct {
 	SignUpService         authPorts.ISignUpService
 	LoginService          authPorts.ILoginService
+	ProfileService        authPorts.IProfileService
 	RecommendationService recommendationPorts.IRecommendationService
 	SwipeService          swipePorts.ISwipeService
 }
@@ -50,6 +51,7 @@ type initServicesApp struct {
 type InitHandlerApp struct {
 	SignUpHandler         authPorts.ISignUpHandler
 	LoginHandler          authPorts.ILoginHandler
+	ProfileHandler        authPorts.IProfileHandler
 	RecommendationHandler recommendationPorts.IRecommendationHandler
 	SwipeHandler          swipePorts.ISwipeHandler
 }
@@ -104,6 +106,7 @@ func initAppRepo(gormDB *db.GormDB, initializeApp *InternalAppStruct) {
 func initAppService(initializeApp *InternalAppStruct) {
 	initializeApp.Services.SignUpService = authService.NewSignUpService(initializeApp.Repositories.AuthRepo)
 	initializeApp.Services.LoginService = authService.NewLoginService(initializeApp.Repositories.AuthRepo)
+	initializeApp.Services.ProfileService = authService.NewProfileService(initializeApp.Repositories.AuthRepo)
 	initializeApp.Services.RecommendationService = recommendationService.NewRecommendationService(initializeApp.Repositories.RecommendationRepo, initializeApp.Repositories.AuthRepo)
 	initializeApp.Services.SwipeService = swipeService.NewSwipeService(initializeApp.Repositories.SwipeRepo, initializeApp.Repositories.AuthRepo)
 }
@@ -111,6 +114,7 @@ func initAppService(initializeApp *InternalAppStruct) {
 func initAppHandler(initializeApp *InternalAppStruct) {
 	initializeApp.Handler.SignUpHandler = authHandler.NewSignUpHandler(initializeApp.Services.SignUpService)
 	initializeApp.Handler.LoginHandler = authHandler.NewLoginHandler(initializeApp.Services.LoginService)
+	initializeApp.Handler.ProfileHandler = authHandler.NewProfileHandler(initializeApp.Services.ProfileService)
 	initializeApp.Handler.RecommendationHandler = recommendationHandler.NewRecommendationHandler(initializeApp.Services.RecommendationService)
 	initializeApp.Handler.SwipeHandler = swipeHandler.NewSwipeHandler(initializeApp.Services.SwipeService)
 }

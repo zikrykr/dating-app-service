@@ -87,6 +87,7 @@ func initRoute(router *gin.Engine, internalAppStruct appSetup.InternalAppStruct)
 	r := router.Group(BaseURL)
 	recommendationRoutes.Routes.NewRoutes(r.Group("/recommendations"), internalAppStruct.Handler.RecommendationHandler)
 	swipeRoutes.Routes.NewRoutes(r.Group("/swipe"), internalAppStruct.Handler.SwipeHandler)
+	authRoutes.Routes.NewRoutes(r.Group("/auth"), internalAppStruct.Handler.ProfileHandler)
 }
 
 func initPublicRoute(router *gin.Engine, internalAppStruct appSetup.InternalAppStruct) {
