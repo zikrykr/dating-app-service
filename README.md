@@ -2,6 +2,31 @@
 
 Dating App Backend Service
 
+# Installation
+
+Clone this repository
+
+```
+https://github.com/zikrykr/dating-app-service.git
+```
+
+## Prerequisite
+
+- [Golang](https://go.dev/doc/install)
+- [Docker](https://docs.docker.com/engine/install/)
+- [PostgreSQL](https://www.postgresql.org/download/)
+
+## How to run
+
+You can run this backend service via `docker-compose` file or you can run locally. If you run on your host machine, make sure you've install `go` and `postgresql`
+
+- Copy `.env.example` to `.env` file (create new `.env` file on first set up), and set value as you want
+- If you want to run via `docker-compose`, then simply just run this command line
+
+```
+$ make run
+```
+
 # Database Migrations
 
 Sql migrations standard using open source tools
