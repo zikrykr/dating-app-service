@@ -42,7 +42,7 @@ func (h ProfileHandler) GetProfile(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, pkg.HTTPResponse{
+	c.JSON(http.StatusOK, pkg.HTTPResponse{
 		Success: true,
 		Message: "Get profile successful",
 		Data:    resp,
