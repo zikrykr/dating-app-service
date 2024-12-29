@@ -42,7 +42,7 @@ func (h PremiumHandler) UpdateUserPremium(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, pkg.HTTPResponse{
+	c.JSON(http.StatusOK, pkg.HTTPResponse{
 		Success: true,
 		Message: "User premium updated successfully",
 	})
