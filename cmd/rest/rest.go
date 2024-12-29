@@ -18,6 +18,9 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// BaseURL base url of api
+const BaseURL = "/api/v1"
+
 func StartServer(setupData appSetup.SetupData) {
 	conf := config.GetConfig()
 	// appName := conf.App.Name
@@ -29,13 +32,9 @@ func StartServer(setupData appSetup.SetupData) {
 	router := gin.Default()
 	router.UseRawPath = true
 
-	// swag.Register(swag.Name, &doc.SwagDoc{})
-	// router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
 	router.GET("/app", func(c *gin.Context) {
 		c.JSON(http.StatusOK, "Dating App Service is running")
 	})
-	// router.GET("/health", setupData.InternalApp.Handler.HealthCheckHandler.HealthCheck)
 
 	router.Use(middleware.CORSMiddleware())
 
@@ -86,6 +85,6 @@ func StartServer(setupData appSetup.SetupData) {
 }
 
 func initPublicRoute(router *gin.Engine, internalAppStruct appSetup.InternalAppStruct) {
-	apiRouter := router.Group("/api/v1/publics")
-	authRoutes.PublicRoutes.NewPublicRoutes(apiRouter.Group("/auth"), internalAppStruct.Handler.SignUpHandler)
+	r := router.Group(BaseURL)
+	authRoutes.PublicRoutes.NewPublicRoutes(r.Group("/auth"), internalAppStruct.Handler.SignUpHandler, internalAppStruct.Handler.LoginHandler)
 }

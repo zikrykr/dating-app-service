@@ -9,18 +9,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type SignUpHandler struct {
-	signUpService port.ISignUpService
+type LoginHandler struct {
+	loginService port.ILoginService
 }
 
-func NewSignUpHandler(service port.ISignUpService) port.ISignUpHandler {
-	return SignUpHandler{
-		signUpService: service,
+func NewLoginHandler(service port.ILoginService) port.ILoginHandler {
+	return LoginHandler{
+		loginService: service,
 	}
 }
 
-func (h SignUpHandler) SignUp(c *gin.Context) {
-	var data payload.SignUpReq
+func (h LoginHandler) Login(c *gin.Context) {
+	var data payload.LoginReq
 	if err := c.ShouldBindJSON(&data); err != nil {
 		pkg.ResponseError(c, http.StatusBadRequest, err)
 		return
@@ -28,13 +28,15 @@ func (h SignUpHandler) SignUp(c *gin.Context) {
 
 	ctx := c.Request.Context()
 
-	if err := h.signUpService.SignUp(ctx, data); err != nil {
+	resp, err := h.loginService.Login(ctx, data)
+	if err != nil {
 		pkg.ResponseError(c, http.StatusBadRequest, err)
 		return
 	}
 
 	c.JSON(http.StatusCreated, pkg.HTTPResponse{
 		Success: true,
-		Message: "User successfully registered",
+		Message: "Login successfull",
+		Data:    resp,
 	})
 }

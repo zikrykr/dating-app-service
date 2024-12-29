@@ -22,8 +22,9 @@ type (
 	}
 
 	app struct {
-		Env  string
-		Name string
+		Env       string
+		Name      string
+		JWTSecret string
 	}
 
 	http struct {
@@ -67,8 +68,9 @@ func InitConfig() {
 			MaxIdletimeConn: getRequiredInt("DB_MAX_IDLETIME_CONN"),
 		},
 		App: app{
-			Env:  getRequiredString("APP_ENV"),
-			Name: appName,
+			Env:       getRequiredString("APP_ENV"),
+			Name:      appName,
+			JWTSecret: getRequiredString("APP_JWT_SECRET"),
 		},
 		Http: http{
 			Port: getRequiredInt("APP_PORT"),

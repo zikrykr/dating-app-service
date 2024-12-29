@@ -31,15 +31,14 @@ type initRepositoriesApp struct {
 // Services
 type initServicesApp struct {
 	SignUpService authPorts.ISignUpService
+	LoginService  authPorts.ILoginService
 }
 
 // Handler
 type InitHandlerApp struct {
 	SignUpHandler authPorts.ISignUpHandler
+	LoginHandler  authPorts.ILoginHandler
 }
-
-// BaseURL base url of api
-const BaseURL = "/v1/api"
 
 // CloseDB close connection to db
 var CloseDB func() error
@@ -88,22 +87,10 @@ func initAppRepo(gormDB *db.GormDB, initializeApp *InternalAppStruct) {
 
 func initAppService(initializeApp *InternalAppStruct) {
 	initializeApp.Services.SignUpService = authService.NewSignUpService(initializeApp.Repositories.AuthRepo)
-	// initializeApp.Services.PromoService = promoService.NewService(initializeApp.Repositories.PromoRepo, initializeApp.Repositories.TrxHandler, externalApp.CRMService)
+	initializeApp.Services.LoginService = authService.NewLoginService(initializeApp.Repositories.AuthRepo)
 }
 
 func initAppHandler(initializeApp *InternalAppStruct) {
 	initializeApp.Handler.SignUpHandler = authHandler.NewSignUpHandler(initializeApp.Services.SignUpService)
-	// initializeApp.Handler.PromoHandler = promoHandler.NewHandler(promoHandler.PromoHandlerOptions{
-	// 	PromoService:           initializeApp.Services.PromoService,
-	// 	PromoServiceV2:         initializeApp.Services.PromoV2Service,
-	// 	UserService:            initializeApp.Services.UserService,
-	// 	RuleService:            initializeApp.Services.RuleService,
-	// 	UsageService:           initializeApp.Services.UsageService,
-	// 	TrxHandler:             initializeApp.Repositories.TrxHandler,
-	// 	AuditlogService:        externalApp.AuditLog,
-	// 	ScaleConversionService: externalApp.ScaleConversionService,
-	// 	BudgetService:          initializeApp.Services.BudgetService,
-	// 	CRMService:             externalApp.CRMService,
-	// })
-
+	initializeApp.Handler.LoginHandler = authHandler.NewLoginHandler(initializeApp.Services.LoginService)
 }

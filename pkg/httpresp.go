@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 )
 
@@ -24,10 +25,14 @@ type Pagination struct {
 	SortBy          string `json:"sort_by"`
 }
 
-func ResponseError(c *gin.Context, err error) {
+func ResponseError(c *gin.Context, code int, err error) {
 	d := err.Error()
 
-	code := http.StatusInternalServerError
+	logrus.WithContext(c.Request.Context()).Error(err)
+
+	if code == 0 {
+		code = http.StatusInternalServerError
+	}
 
 	// if request cancelled
 	if c.Request.Context().Err() == context.Canceled {

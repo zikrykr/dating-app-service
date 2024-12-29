@@ -9,7 +9,9 @@ type authPublicRoutes struct{}
 
 var PublicRoutes authPublicRoutes
 
-func (r authPublicRoutes) NewPublicRoutes(router *gin.RouterGroup, signUpHandler port.ISignUpHandler) {
+func (r authPublicRoutes) NewPublicRoutes(router *gin.RouterGroup, signUpHandler port.ISignUpHandler, loginHandler port.ILoginHandler) {
 	// sign-up
 	router.POST("/sign-up", signUpHandler.SignUp)
+	// login
+	router.POST("/login", loginHandler.Login)
 }

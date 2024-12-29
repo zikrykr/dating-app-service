@@ -37,6 +37,7 @@ func (s SignUpService) SignUp(ctx context.Context, req payload.SignUpReq) error 
 		Gender:          req.Gender,
 		ProfileImageURL: req.ProfileImageURL,
 		Description:     req.Description,
+		Password:        req.Password,
 	}
 
 	if err := s.repository.CreateUser(ctx, data); err != nil {
