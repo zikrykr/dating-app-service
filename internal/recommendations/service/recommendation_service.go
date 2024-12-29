@@ -10,18 +10,21 @@ import (
 	"github.com/dating-app-service/internal/recommendations/model"
 	"github.com/dating-app-service/internal/recommendations/payload"
 	"github.com/dating-app-service/internal/recommendations/port"
+	swipePort "github.com/dating-app-service/internal/swipe/port"
 	"gorm.io/gorm"
 )
 
 type RecommendationService struct {
-	repository     port.IRecommendationRepo
-	authRepository authPort.IAuthRepo
+	repository      port.IRecommendationRepo
+	authRepository  authPort.IAuthRepo
+	swipeRepository swipePort.ISwipeRepository
 }
 
-func NewRecommendationService(repo port.IRecommendationRepo, authRepo authPort.IAuthRepo) port.IRecommendationService {
+func NewRecommendationService(repo port.IRecommendationRepo, authRepo authPort.IAuthRepo, swipeRepo swipePort.ISwipeRepository) port.IRecommendationService {
 	return RecommendationService{
-		repository:     repo,
-		authRepository: authRepo,
+		repository:      repo,
+		authRepository:  authRepo,
+		swipeRepository: swipeRepo,
 	}
 }
 
@@ -37,7 +40,7 @@ func (s RecommendationService) GetRecommendation(ctx context.Context, req payloa
 	}
 
 	// Get User Recommendation Tracker
-	// to check how much user recommendation retrieved on today
+	// to check how much user recommendation retrieved and exclude seen on today
 	currDate := time.Now()
 	trackerData, err := s.repository.GetUserRecommendationTracker(ctx, payload.GetUserRecommendationTrackerFilter{
 		UserID:      userData.ID,
@@ -56,6 +59,19 @@ func (s RecommendationService) GetRecommendation(ctx context.Context, req payloa
 	if len(trackerData) > 0 {
 		for _, tracker := range trackerData {
 			userIDNotIN = append(userIDNotIN, tracker.SeenUserID)
+		}
+	}
+
+	// Get Swiped User
+	// exclude swiped user
+	swipedUser, err := s.swipeRepository.GetSwipesByUserID(ctx, userData.ID)
+	if err != nil {
+		return model.Recommendation{}, err
+	}
+
+	if len(swipedUser) > 0 {
+		for _, user := range swipedUser {
+			userIDNotIN = append(userIDNotIN, user.SwipedUserID)
 		}
 	}
 

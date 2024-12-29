@@ -23,3 +23,13 @@ func (r repository) CreateSwipe(ctx context.Context, data model.UserSwipe) error
 
 	return nil
 }
+
+func (r repository) GetSwipesByUserID(ctx context.Context, userID string) ([]model.UserSwipe, error) {
+	var res []model.UserSwipe
+
+	if err := r.db.WithContext(ctx).Where("user_id = ?", userID).Find(&res).Error; err != nil {
+		return res, err
+	}
+
+	return res, nil
+}

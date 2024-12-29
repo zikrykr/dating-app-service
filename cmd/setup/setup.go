@@ -107,7 +107,7 @@ func initAppService(initializeApp *InternalAppStruct) {
 	initializeApp.Services.SignUpService = authService.NewSignUpService(initializeApp.Repositories.AuthRepo)
 	initializeApp.Services.LoginService = authService.NewLoginService(initializeApp.Repositories.AuthRepo)
 	initializeApp.Services.ProfileService = authService.NewProfileService(initializeApp.Repositories.AuthRepo)
-	initializeApp.Services.RecommendationService = recommendationService.NewRecommendationService(initializeApp.Repositories.RecommendationRepo, initializeApp.Repositories.AuthRepo)
+	initializeApp.Services.RecommendationService = recommendationService.NewRecommendationService(initializeApp.Repositories.RecommendationRepo, initializeApp.Repositories.AuthRepo, initializeApp.Repositories.SwipeRepo)
 	initializeApp.Services.SwipeService = swipeService.NewSwipeService(initializeApp.Repositories.SwipeRepo, initializeApp.Repositories.AuthRepo)
 }
 

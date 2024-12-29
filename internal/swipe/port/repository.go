@@ -8,4 +8,5 @@ import (
 
 type ISwipeRepository interface {
 	CreateSwipe(ctx context.Context, data model.UserSwipe) error
+	GetSwipesByUserID(ctx context.Context, userID string) ([]model.UserSwipe, error)
 }
