@@ -11,6 +11,10 @@ import (
 	recommendationPorts "github.com/dating-app-service/internal/recommendations/port"
 	recommendationRepo "github.com/dating-app-service/internal/recommendations/repository"
 	recommendationService "github.com/dating-app-service/internal/recommendations/service"
+	swipeHandler "github.com/dating-app-service/internal/swipe/handler"
+	swipePorts "github.com/dating-app-service/internal/swipe/port"
+	swipeRepo "github.com/dating-app-service/internal/swipe/repository"
+	swipeService "github.com/dating-app-service/internal/swipe/service"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 )
@@ -31,6 +35,7 @@ type initRepositoriesApp struct {
 	dbInstance         *gorm.DB
 	AuthRepo           authPorts.IAuthRepo
 	RecommendationRepo recommendationPorts.IRecommendationRepo
+	SwipeRepo          swipePorts.ISwipeRepository
 }
 
 // Services
@@ -38,6 +43,7 @@ type initServicesApp struct {
 	SignUpService         authPorts.ISignUpService
 	LoginService          authPorts.ILoginService
 	RecommendationService recommendationPorts.IRecommendationService
+	SwipeService          swipePorts.ISwipeService
 }
 
 // Handler
@@ -45,6 +51,7 @@ type InitHandlerApp struct {
 	SignUpHandler         authPorts.ISignUpHandler
 	LoginHandler          authPorts.ILoginHandler
 	RecommendationHandler recommendationPorts.IRecommendationHandler
+	SwipeHandler          swipePorts.ISwipeHandler
 }
 
 // CloseDB close connection to db
@@ -91,16 +98,19 @@ func initAppRepo(gormDB *db.GormDB, initializeApp *InternalAppStruct) {
 
 	initializeApp.Repositories.AuthRepo = authrepo.NewRepository(gormDB)
 	initializeApp.Repositories.RecommendationRepo = recommendationRepo.NewRepository(gormDB)
+	initializeApp.Repositories.SwipeRepo = swipeRepo.NewRepository(gormDB)
 }
 
 func initAppService(initializeApp *InternalAppStruct) {
 	initializeApp.Services.SignUpService = authService.NewSignUpService(initializeApp.Repositories.AuthRepo)
 	initializeApp.Services.LoginService = authService.NewLoginService(initializeApp.Repositories.AuthRepo)
 	initializeApp.Services.RecommendationService = recommendationService.NewRecommendationService(initializeApp.Repositories.RecommendationRepo, initializeApp.Repositories.AuthRepo)
+	initializeApp.Services.SwipeService = swipeService.NewSwipeService(initializeApp.Repositories.SwipeRepo, initializeApp.Repositories.AuthRepo)
 }
 
 func initAppHandler(initializeApp *InternalAppStruct) {
 	initializeApp.Handler.SignUpHandler = authHandler.NewSignUpHandler(initializeApp.Services.SignUpService)
 	initializeApp.Handler.LoginHandler = authHandler.NewLoginHandler(initializeApp.Services.LoginService)
 	initializeApp.Handler.RecommendationHandler = recommendationHandler.NewRecommendationHandler(initializeApp.Services.RecommendationService)
+	initializeApp.Handler.SwipeHandler = swipeHandler.NewSwipeHandler(initializeApp.Services.SwipeService)
 }
