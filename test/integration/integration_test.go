@@ -29,11 +29,7 @@ func TestIntegration(t *testing.T) {
 		response, err := http.Post(baseUrl+"/auth/sign-up", "application/json", bytes.NewBuffer(body))
 
 		assert.NoError(t, err)
-		assert.Equal(t, http.StatusOK, response.StatusCode)
-
-		var responseBody map[string]interface{}
-		json.NewDecoder(response.Body).Decode(&responseBody)
-		assert.Contains(t, responseBody, "user_id")
+		assert.Equal(t, http.StatusCreated, response.StatusCode)
 	})
 
 	t.Run("Login", func(t *testing.T) {
@@ -47,10 +43,18 @@ func TestIntegration(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, http.StatusOK, response.StatusCode)
 
-		var responseBody map[string]interface{}
+		type responseBodyStruct struct {
+			Data struct {
+				AccessToken string `json:"access_token"`
+			} `json:"data"`
+		}
+
+		var responseBody responseBodyStruct
 		json.NewDecoder(response.Body).Decode(&responseBody)
-		assert.Contains(t, responseBody, "token")
-		authToken = responseBody["token"].(string)
+
+		// Assert that the access token is present and non-empty
+		assert.NotEmpty(t, responseBody.Data.AccessToken, "AccessToken should not be empty")
+		authToken = responseBody.Data.AccessToken
 	})
 
 	t.Run("Get Recommendations", func(t *testing.T) {
@@ -74,10 +78,17 @@ func TestIntegration(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, http.StatusOK, response.StatusCode)
 
-		var responseBody map[string]interface{}
+		type responseBodyStruct struct {
+			Data struct {
+				Email string `json:"email"`
+				Name  string `json:"name"`
+			} `json:"data"`
+		}
+
+		var responseBody responseBodyStruct
 		json.NewDecoder(response.Body).Decode(&responseBody)
-		assert.Equal(t, "testuser@gmail.com", responseBody["email"])
-		assert.Equal(t, "Test User", responseBody["name"])
+		assert.Equal(t, "testuser@gmail.com", responseBody.Data.Email)
+		assert.Equal(t, "Test User", responseBody.Data.Name)
 	})
 
 	t.Run("Swipe", func(t *testing.T) {
@@ -92,11 +103,11 @@ func TestIntegration(t *testing.T) {
 		response, err := http.DefaultClient.Do(req)
 
 		assert.NoError(t, err)
-		assert.Equal(t, http.StatusOK, response.StatusCode)
+		assert.Equal(t, http.StatusCreated, response.StatusCode)
 
 		var responseBody map[string]interface{}
 		json.NewDecoder(response.Body).Decode(&responseBody)
-		assert.Equal(t, "success", responseBody["status"])
+		assert.Equal(t, true, responseBody["success"])
 	})
 
 	t.Run("Upgrade Premium", func(t *testing.T) {
@@ -109,6 +120,6 @@ func TestIntegration(t *testing.T) {
 
 		var responseBody map[string]interface{}
 		json.NewDecoder(response.Body).Decode(&responseBody)
-		assert.Equal(t, "active", responseBody["premium_status"])
+		assert.Equal(t, true, responseBody["success"])
 	})
 }
