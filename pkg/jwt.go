@@ -14,6 +14,7 @@ const (
 type JWTClaims struct {
 	jwt.RegisteredClaims
 	UserID string `json:"user_id"`
+	Email  string `json:"email"`
 }
 
 type JWTResp struct {

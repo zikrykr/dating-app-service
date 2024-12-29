@@ -13,6 +13,7 @@ import (
 	"github.com/dating-app-service/config"
 	"github.com/dating-app-service/constants"
 	authRoutes "github.com/dating-app-service/internal/auth/routes"
+	recommendationRoutes "github.com/dating-app-service/internal/recommendations/routes"
 	"github.com/dating-app-service/middleware"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
@@ -45,8 +46,8 @@ func StartServer(setupData appSetup.SetupData) {
 	// router.Use(middleware.AddAppGroupIDs())
 	// router.Use(middleware.SetPointName(setupData.ExternalApp.CustomerService))
 
-	// //Init Main APP and Route
-	// initRoute(router, setupData.InternalApp)
+	//Init Main APP and Route
+	initRoute(router, setupData.InternalApp)
 	// initInternalRoute(router, setupData.InternalApp)
 
 	port := config.GetConfig().Http.Port
@@ -82,6 +83,11 @@ func StartServer(setupData appSetup.SetupData) {
 	_ = appSetup.CloseDB()
 
 	logrus.Info("Server exiting")
+}
+
+func initRoute(router *gin.Engine, internalAppStruct appSetup.InternalAppStruct) {
+	r := router.Group(BaseURL)
+	recommendationRoutes.Routes.NewRoutes(r.Group("/recommendations"), internalAppStruct.Handler.RecommendationHandler)
 }
 
 func initPublicRoute(router *gin.Engine, internalAppStruct appSetup.InternalAppStruct) {

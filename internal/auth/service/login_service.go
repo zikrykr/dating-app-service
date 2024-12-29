@@ -36,6 +36,7 @@ func (s LoginService) Login(ctx context.Context, req payload.LoginReq) (payload.
 	// generate JWT
 	resToken, err := pkg.GenerateJWT(&pkg.JWTClaims{
 		UserID: userData.ID,
+		Email:  userData.Email,
 	})
 	if err != nil {
 		return res, err

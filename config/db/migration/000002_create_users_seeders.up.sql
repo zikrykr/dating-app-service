@@ -1,0 +1,15 @@
+BEGIN;
+
+INSERT INTO users (id, name, email, date_of_birth, gender, profile_image_url, description, password, created_at, updated_at, deleted_at) VALUES
+  ('ce74d82a-d874-4b7d-a7ea-1f2e689c9428', 'Alice Johnson', 'alice.johnson@example.com', '1990-03-15', 'female', 'https://example.com/images/alice.jpg', 'Passionate traveler and writer.', '$2a$10$CwTycUXWue0Thq9StjUM0uJ8VJAZ4Sk1SG9f0X/Vg.qv/NjDS/2VO', NOW(), NOW(), NULL),
+  ('b401df4b-4014-48b8-b62f-3b5d49a38c22', 'Bob Smith', 'bob.smith@example.com', '1985-07-22', 'male', 'https://example.com/images/bob.jpg', 'Avid gamer and coffee enthusiast.', '$2a$10$CwTycUXWue0Thq9StjUM0uJ8VJAZ4Sk1SG9f0X/Vg.qv/NjDS/2VO', NOW(), NOW(), NULL),
+  ('ff502f23-cdd5-4a1d-91f2-4e18374b8d1c', 'Carol White', 'carol.white@example.com', '1992-10-10', 'female', 'https://example.com/images/carol.jpg', 'Loves painting and reading books.', '$2a$10$CwTycUXWue0Thq9StjUM0uJ8VJAZ4Sk1SG9f0X/Vg.qv/NjDS/2VO', NOW(), NOW(), NULL),
+  ('47c2fced-8f6a-4b85-9874-4992b45396b1', 'David Brown', 'david.brown@example.com', '1987-01-05', 'male', 'https://example.com/images/david.jpg', 'Tech enthusiast and aspiring coder.', '$2a$10$CwTycUXWue0Thq9StjUM0uJ8VJAZ4Sk1SG9f0X/Vg.qv/NjDS/2VO', NOW(), NOW(), NULL),
+  ('8d83e2a9-8e7e-42f4-9032-7f0949146b56', 'Emma Davis', 'emma.davis@example.com', '1994-06-25', 'female', 'https://example.com/images/emma.jpg', 'Fitness lover and yoga practitioner.', '$2a$10$CwTycUXWue0Thq9StjUM0uJ8VJAZ4Sk1SG9f0X/Vg.qv/NjDS/2VO', NOW(), NOW(), NULL),
+  ('21a4e1d5-a482-40c3-b3c5-89b8ddaaedc6', 'Frank Miller', 'frank.miller@example.com', '1988-11-18', 'male', 'https://example.com/images/frank.jpg', 'Outdoor enthusiast and photographer.', '$2a$10$CwTycUXWue0Thq9StjUM0uJ8VJAZ4Sk1SG9f0X/Vg.qv/NjDS/2VO', NOW(), NOW(), NULL),
+  ('918b3471-6826-4a80-b3e3-9787388e5e42', 'Grace Wilson', 'grace.wilson@example.com', '1991-02-14', 'female', 'https://example.com/images/grace.jpg', 'Passionate about cooking and baking.', '$2a$10$CwTycUXWue0Thq9StjUM0uJ8VJAZ4Sk1SG9f0X/Vg.qv/NjDS/2VO', NOW(), NOW(), NULL),
+  ('7b0e1b23-4baf-4cf6-a04b-5bc1487eec66', 'Henry Moore', 'henry.moore@example.com', '1989-09-30', 'male', 'https://example.com/images/henry.jpg', 'Music lover and guitarist.', '$2a$10$CwTycUXWue0Thq9StjUM0uJ8VJAZ4Sk1SG9f0X/Vg.qv/NjDS/2VO', NOW(), NOW(), NULL),
+  ('be2f3b18-37e2-46c0-a582-1c439d73c32e', 'Ivy Taylor', 'ivy.taylor@example.com', '1995-08-12', 'female', 'https://example.com/images/ivy.jpg', 'Adventure seeker and hiker.', '$2a$10$CwTycUXWue0Thq9StjUM0uJ8VJAZ4Sk1SG9f0X/Vg.qv/NjDS/2VO', NOW(), NOW(), NULL),
+  ('ab95f7d9-6d8a-4e3a-891e-1e7159b74762', 'Jack Harris', 'jack.harris@example.com', '1993-12-20', 'male', 'https://example.com/images/jack.jpg', 'Entrepreneur and startup founder.', '$2a$10$CwTycUXWue0Thq9StjUM0uJ8VJAZ4Sk1SG9f0X/Vg.qv/NjDS/2VO', NOW(), NOW(), NULL);
+
+COMMIT;

@@ -12,17 +12,10 @@ import (
 )
 
 type HTTPResponse struct {
-	Success bool        `json:"success"`
-	Message string      `json:"message"`
-	Data    interface{} `json:"data,omitempty"`
-}
-
-type Pagination struct {
-	CurrentPage     int64  `json:"current_page"`
-	CurrentElements int64  `json:"current_elements"`
-	TotalPages      int64  `json:"total_pages"`
-	TotalElements   int64  `json:"total_elements"`
-	SortBy          string `json:"sort_by"`
+	Success    bool        `json:"success"`
+	Message    string      `json:"message"`
+	Data       interface{} `json:"data,omitempty"`
+	Pagination *Pagination `json:"pagination,omitempty"`
 }
 
 func ResponseError(c *gin.Context, code int, err error) {
