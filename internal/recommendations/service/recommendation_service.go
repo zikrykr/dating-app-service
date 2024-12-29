@@ -35,10 +35,6 @@ func (s RecommendationService) GetRecommendation(ctx context.Context, req payloa
 		return model.Recommendation{}, err
 	}
 
-	userIDNotIN := []string{
-		userData.ID,
-	}
-
 	// Get User Recommendation Tracker
 	// to check how much user recommendation retrieved and exclude seen on today
 	currDate := time.Now()
@@ -54,6 +50,10 @@ func (s RecommendationService) GetRecommendation(ctx context.Context, req payloa
 		if len(trackerData) >= constants.MAX_LIMIT_FREE_USERS {
 			return model.Recommendation{}, errors.New("max limit recommendations has been reached for today")
 		}
+	}
+
+	userIDNotIN := []string{
+		userData.ID,
 	}
 
 	if len(trackerData) > 0 {

@@ -13,6 +13,7 @@ import (
 	"github.com/dating-app-service/config"
 	"github.com/dating-app-service/constants"
 	authRoutes "github.com/dating-app-service/internal/auth/routes"
+	premiumRoutes "github.com/dating-app-service/internal/premium/routes"
 	recommendationRoutes "github.com/dating-app-service/internal/recommendations/routes"
 	swipeRoutes "github.com/dating-app-service/internal/swipe/routes"
 	"github.com/dating-app-service/middleware"
@@ -88,6 +89,7 @@ func initRoute(router *gin.Engine, internalAppStruct appSetup.InternalAppStruct)
 	recommendationRoutes.Routes.NewRoutes(r.Group("/recommendations"), internalAppStruct.Handler.RecommendationHandler)
 	swipeRoutes.Routes.NewRoutes(r.Group("/swipe"), internalAppStruct.Handler.SwipeHandler)
 	authRoutes.Routes.NewRoutes(r.Group("/auth"), internalAppStruct.Handler.ProfileHandler)
+	premiumRoutes.Routes.NewRoutes(r.Group("/premium"), internalAppStruct.Handler.PremiumHandler)
 }
 
 func initPublicRoute(router *gin.Engine, internalAppStruct appSetup.InternalAppStruct) {
