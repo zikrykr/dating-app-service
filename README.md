@@ -2,6 +2,55 @@
 
 Dating App Backend Service
 
+# Project Structure
+
+All handler, repository, and service are inside `internal` folder
+
+```bash
+├───cmd
+│   ├───rest
+│   └───setup
+├───config
+│   └───db
+│       └───migration
+├───constants
+├───internal
+│   ├───auth
+│   │   ├───handler
+│   │   ├───model
+│   │   ├───payload
+│   │   ├───port
+│   │   ├───repository
+│   │   ├───routes
+│   │   └───service
+│   ├───premium
+│   │   ├───handler
+│   │   ├───model
+│   │   ├───payload
+│   │   ├───port
+│   │   ├───repository
+│   │   ├───routes
+│   │   └───service
+│   ├───recommendations
+│   │   ├───handler
+│   │   ├───model
+│   │   ├───payload
+│   │   ├───port
+│   │   ├───repository
+│   │   ├───routes
+│   │   └───service
+│   └───swipe
+│       ├───handler
+│       ├───model
+│       ├───payload
+│       ├───port
+│       ├───repository
+│       ├───routes
+│       └───service
+├───middleware
+└───pkg
+```
+
 # Installation
 
 Clone this repository
