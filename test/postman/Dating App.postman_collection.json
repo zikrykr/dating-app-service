@@ -1,0 +1,235 @@
+{
+	"info": {
+		"_postman_id": "4011dc43-0c36-4aab-bc39-8010f121d417",
+		"name": "Dating App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19014726"
+	},
+	"item": [
+		{
+			"name": "Sign Up",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"zikrykr@gmail.com\",\r\n    \"name\": \"Zikry Kurniawan\",\r\n    \"date_of_birth\": \"1996-12-02\",\r\n    \"gender\": \"male\",\r\n    \"profile_image_url\": \"https://blablabla.com\",\r\n    \"description\": \"my description\",\r\n    \"password\": \"jikur123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/auth/sign-up",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"sign-up"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"zikrykr@gmail.com\",\r\n    \"password\": \"jikur123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/auth/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Recommendations",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkYXRpbmctYXBwLXNlcnZpY2UiLCJzdWIiOiJhY2Nlc3NfdG9rZW4iLCJleHAiOjE3MzU0ODI5MjUsImlhdCI6MTczNTQ3OTMyNSwidXNlcl9pZCI6ImRkNjg0YTFjLTA5MTQtNDg1Yi05YTE4LTBmZWMwODNiMmUwZSIsImVtYWlsIjoiemlrcnlrckBnbWFpbC5jb20ifQ.UlIahUpqykK8IObOa_nI5v6FVFSarDV9we3XdgKtNiQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/recommendations",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"recommendations"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "5",
+							"disabled": true
+						},
+						{
+							"key": "page",
+							"value": "1",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Profile",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkYXRpbmctYXBwLXNlcnZpY2UiLCJzdWIiOiJhY2Nlc3NfdG9rZW4iLCJleHAiOjE3MzU0ODI5MjUsImlhdCI6MTczNTQ3OTMyNSwidXNlcl9pZCI6ImRkNjg0YTFjLTA5MTQtNDg1Yi05YTE4LTBmZWMwODNiMmUwZSIsImVtYWlsIjoiemlrcnlrckBnbWFpbC5jb20ifQ.UlIahUpqykK8IObOa_nI5v6FVFSarDV9we3XdgKtNiQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/auth/profile",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Swipe",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkYXRpbmctYXBwLXNlcnZpY2UiLCJzdWIiOiJhY2Nlc3NfdG9rZW4iLCJleHAiOjE3MzU0ODI5MjUsImlhdCI6MTczNTQ3OTMyNSwidXNlcl9pZCI6ImRkNjg0YTFjLTA5MTQtNDg1Yi05YTE4LTBmZWMwODNiMmUwZSIsImVtYWlsIjoiemlrcnlrckBnbWFpbC5jb20ifQ.UlIahUpqykK8IObOa_nI5v6FVFSarDV9we3XdgKtNiQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"swiped_user_id\": \"f2e4df28-7a9e-4539-9782-6c9a67d8e0b6\",\r\n    \"swipe_type\": \"pass\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/swipe",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"swipe"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "5",
+							"disabled": true
+						},
+						{
+							"key": "page",
+							"value": "1",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upgrade Premium",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkYXRpbmctYXBwLXNlcnZpY2UiLCJzdWIiOiJhY2Nlc3NfdG9rZW4iLCJleHAiOjE3MzU0ODI5MjUsImlhdCI6MTczNTQ3OTMyNSwidXNlcl9pZCI6ImRkNjg0YTFjLTA5MTQtNDg1Yi05YTE4LTBmZWMwODNiMmUwZSIsImVtYWlsIjoiemlrcnlrckBnbWFpbC5jb20ifQ.UlIahUpqykK8IObOa_nI5v6FVFSarDV9we3XdgKtNiQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/premium",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"premium"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080/api/v1",
+			"type": "string"
+		}
+	]
+}
