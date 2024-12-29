@@ -12,6 +12,7 @@ import (
 	appSetup "github.com/dating-app-service/cmd/setup"
 	"github.com/dating-app-service/config"
 	"github.com/dating-app-service/constants"
+	authRoutes "github.com/dating-app-service/internal/auth/routes"
 	"github.com/dating-app-service/middleware"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
@@ -39,7 +40,7 @@ func StartServer(setupData appSetup.SetupData) {
 	router.Use(middleware.CORSMiddleware())
 
 	// init public route
-	// initPublicRoute(router, setupData.InternalApp)
+	initPublicRoute(router, setupData.InternalApp)
 
 	// router.Use(middleware.JWTAuthMiddleware())
 	// router.Use(middleware.AddAppGroupIDs())
@@ -82,4 +83,9 @@ func StartServer(setupData appSetup.SetupData) {
 	_ = appSetup.CloseDB()
 
 	logrus.Info("Server exiting")
+}
+
+func initPublicRoute(router *gin.Engine, internalAppStruct appSetup.InternalAppStruct) {
+	apiRouter := router.Group("/api/v1/publics")
+	authRoutes.PublicRoutes.NewPublicRoutes(apiRouter.Group("/auth"), internalAppStruct.Handler.SignUpHandler)
 }

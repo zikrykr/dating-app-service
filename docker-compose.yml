@@ -11,6 +11,7 @@ services:
       - "${APP_PORT}:${APP_PORT}"
     depends_on:
       - db
+      - migrate
 
   db:
     image: postgres:alpine
@@ -19,8 +20,28 @@ services:
       POSTGRES_PASSWORD: "${DB_PASS}"
       POSTGRES_USER: "${DB_USER}"
       POSTGRES_DB: "${DB_NAME}"
+    ports:
+      - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
+  migrate:
+    image: migrate/migrate
+    depends_on:
+      - db
+    entrypoint: ["/bin/sh", "-c"]
+    command: >
+      "while ! nc -z db 5432; do
+         echo 'Waiting for database...';
+         sleep 2;
+       done;
+       migrate -path=/migrations -database postgres://${DB_USER}:${DB_PASS}@db:5432/${DB_NAME}?sslmode=disable up"
+    volumes:
+      - ./config/db/migration:/migrations
+
 volumes:
   postgres-data:
+
+networks:
+  bridge:
+    external: true

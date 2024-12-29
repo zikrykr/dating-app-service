@@ -3,6 +3,10 @@ package cmd
 import (
 	"github.com/dating-app-service/config"
 	"github.com/dating-app-service/config/db"
+	authHandler "github.com/dating-app-service/internal/auth/handler"
+	authPorts "github.com/dating-app-service/internal/auth/port"
+	authrepo "github.com/dating-app-service/internal/auth/repository"
+	authService "github.com/dating-app-service/internal/auth/service"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 )
@@ -21,14 +25,17 @@ type InternalAppStruct struct {
 // Repositories
 type initRepositoriesApp struct {
 	dbInstance *gorm.DB
+	AuthRepo   authPorts.IAuthRepo
 }
 
 // Services
 type initServicesApp struct {
+	SignUpService authPorts.ISignUpService
 }
 
 // Handler
 type InitHandlerApp struct {
+	SignUpHandler authPorts.ISignUpHandler
 }
 
 // BaseURL base url of api
@@ -75,13 +82,17 @@ func initInternalApp(gormDB *db.GormDB) InternalAppStruct {
 func initAppRepo(gormDB *db.GormDB, initializeApp *InternalAppStruct) {
 	// Get Gorm instance
 	initializeApp.Repositories.dbInstance = gormDB.DB
+
+	initializeApp.Repositories.AuthRepo = authrepo.NewRepository(gormDB)
 }
 
 func initAppService(initializeApp *InternalAppStruct) {
+	initializeApp.Services.SignUpService = authService.NewSignUpService(initializeApp.Repositories.AuthRepo)
 	// initializeApp.Services.PromoService = promoService.NewService(initializeApp.Repositories.PromoRepo, initializeApp.Repositories.TrxHandler, externalApp.CRMService)
 }
 
 func initAppHandler(initializeApp *InternalAppStruct) {
+	initializeApp.Handler.SignUpHandler = authHandler.NewSignUpHandler(initializeApp.Services.SignUpService)
 	// initializeApp.Handler.PromoHandler = promoHandler.NewHandler(promoHandler.PromoHandlerOptions{
 	// 	PromoService:           initializeApp.Services.PromoService,
 	// 	PromoServiceV2:         initializeApp.Services.PromoV2Service,
