@@ -25,7 +25,7 @@ func GenerateJWT(claimsData *JWTClaims) (JWTResp, error) {
 	config := config.GetConfig()
 
 	issuedAt := time.Now()
-	expAt := issuedAt.Add(5 * time.Minute)
+	expAt := issuedAt.Add(60 * time.Minute)
 
 	claimsData.RegisteredClaims = jwt.RegisteredClaims{
 		Issuer:    config.App.Name,

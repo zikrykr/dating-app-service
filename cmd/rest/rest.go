@@ -42,13 +42,10 @@ func StartServer(setupData appSetup.SetupData) {
 	// init public route
 	initPublicRoute(router, setupData.InternalApp)
 
-	// router.Use(middleware.JWTAuthMiddleware())
-	// router.Use(middleware.AddAppGroupIDs())
-	// router.Use(middleware.SetPointName(setupData.ExternalApp.CustomerService))
+	router.Use(middleware.JwtAuthMiddleware())
 
 	//Init Main APP and Route
 	initRoute(router, setupData.InternalApp)
-	// initInternalRoute(router, setupData.InternalApp)
 
 	port := config.GetConfig().Http.Port
 	httpServer := &http.Server{
