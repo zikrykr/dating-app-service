@@ -21,23 +21,19 @@ func NewRecommendationHandler(service port.IRecommendationService) port.IRecomme
 
 func (h RecommendationHandler) GetRecommendations(c *gin.Context) {
 	var req payload.GetRecommendationsReq
-	if err := c.BindQuery(&req); err != nil {
-		pkg.ResponseError(c, http.StatusBadRequest, err)
-		return
-	}
 
 	// TODO: retrieve email from JWT
 	req.Email = "alice.johnson@example.com"
 
-	resp, pagination, err := h.recommendationService.GetRecommendations(c, req)
+	resp, err := h.recommendationService.GetRecommendation(c, req)
 	if err != nil {
 		pkg.ResponseError(c, http.StatusBadRequest, err)
+		return
 	}
 
 	c.JSON(http.StatusOK, pkg.HTTPResponse{
-		Success:    true,
-		Message:    "Recommendations retrieved successfully",
-		Data:       resp,
-		Pagination: pagination,
+		Success: true,
+		Message: "Recommendations retrieved successfully",
+		Data:    resp,
 	})
 }

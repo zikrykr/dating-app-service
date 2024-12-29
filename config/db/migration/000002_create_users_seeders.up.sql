@@ -12,4 +12,17 @@ INSERT INTO users (id, name, email, date_of_birth, gender, profile_image_url, de
   ('be2f3b18-37e2-46c0-a582-1c439d73c32e', 'Ivy Taylor', 'ivy.taylor@example.com', '1995-08-12', 'female', 'https://example.com/images/ivy.jpg', 'Adventure seeker and hiker.', '$2a$10$CwTycUXWue0Thq9StjUM0uJ8VJAZ4Sk1SG9f0X/Vg.qv/NjDS/2VO', NOW(), NOW(), NULL),
   ('ab95f7d9-6d8a-4e3a-891e-1e7159b74762', 'Jack Harris', 'jack.harris@example.com', '1993-12-20', 'male', 'https://example.com/images/jack.jpg', 'Entrepreneur and startup founder.', '$2a$10$CwTycUXWue0Thq9StjUM0uJ8VJAZ4Sk1SG9f0X/Vg.qv/NjDS/2VO', NOW(), NOW(), NULL);
 
+INSERT INTO users (id, name, email, date_of_birth, gender, profile_image_url, description, password, created_at, updated_at, deleted_at) VALUES
+  ('f1f59f28-c902-4b3f-9ea7-29f1627b8c34', 'Liam Walker', 'liam.walker@example.com', '1990-04-14', 'male', 'https://example.com/images/liam.jpg', 'Bookworm and aspiring writer.', '$2a$10$CwTycUXWue0Thq9StjUM0uJ8VJAZ4Sk1SG9f0X/Vg.qv/NjDS/2VO', NOW(), NOW(), NULL),
+  ('b0239857-3d59-4c8a-988f-84a9f6e06f74', 'Olivia Adams', 'olivia.adams@example.com', '1988-12-03', 'female', 'https://example.com/images/olivia.jpg', 'Fitness enthusiast and yoga instructor.', '$2a$10$CwTycUXWue0Thq9StjUM0uJ8VJAZ4Sk1SG9f0X/Vg.qv/NjDS/2VO', NOW(), NOW(), NULL),
+  ('3ed8b6e1-f24e-4b0a-bd73-98f837eb40db', 'Ethan Phillips', 'ethan.phillips@example.com', '1995-05-07', 'male', 'https://example.com/images/ethan.jpg', 'Tech geek and startup founder.', '$2a$10$CwTycUXWue0Thq9StjUM0uJ8VJAZ4Sk1SG9f0X/Vg.qv/NjDS/2VO', NOW(), NOW(), NULL),
+  ('e2d3728d-967c-4680-9453-0c03e5de8d47', 'Sophia Carter', 'sophia.carter@example.com', '1993-08-25', 'female', 'https://example.com/images/sophia.jpg', 'Nature lover and environmental activist.', '$2a$10$CwTycUXWue0Thq9StjUM0uJ8VJAZ4Sk1SG9f0X/Vg.qv/NjDS/2VO', NOW(), NOW(), NULL),
+  ('fe381c8a-0175-4cf0-967d-6d2b30285c54', 'Noah Martinez', 'noah.martinez@example.com', '1987-11-19', 'male', 'https://example.com/images/noah.jpg', 'Photographer and digital artist.', '$2a$10$CwTycUXWue0Thq9StjUM0uJ8VJAZ4Sk1SG9f0X/Vg.qv/NjDS/2VO', NOW(), NOW(), NULL),
+  ('8bd14b96-cf60-4b5e-ae94-14f2d23396b5', 'Mia Garcia', 'mia.garcia@example.com', '1991-01-30', 'female', 'https://example.com/images/mia.jpg', 'Food blogger and recipe creator.', '$2a$10$CwTycUXWue0Thq9StjUM0uJ8VJAZ4Sk1SG9f0X/Vg.qv/NjDS/2VO', NOW(), NOW(), NULL),
+  ('12b3482e-8c7c-41f1-929d-7410e6048b2c', 'James Brown', 'james.brown@example.com', '1989-03-12', 'male', 'https://example.com/images/james.jpg', 'Guitarist and music producer.', '$2a$10$CwTycUXWue0Thq9StjUM0uJ8VJAZ4Sk1SG9f0X/Vg.qv/NjDS/2VO', NOW(), NOW(), NULL),
+  ('f2e4df28-7a9e-4539-9782-6c9a67d8e0b6', 'Isabella Wilson', 'isabella.wilson@example.com', '1994-06-18', 'female', 'https://example.com/images/isabella.jpg', 'Fashion designer and traveler.', '$2a$10$CwTycUXWue0Thq9StjUM0uJ8VJAZ4Sk1SG9f0X/Vg.qv/NjDS/2VO', NOW(), NOW(), NULL),
+  ('7b348dc2-92d2-46c8-8a0e-b457bf31e6c4', 'Logan Anderson', 'logan.anderson@example.com', '1986-10-10', 'male', 'https://example.com/images/logan.jpg', 'Outdoor adventurer and survivalist.', '$2a$10$CwTycUXWue0Thq9StjUM0uJ8VJAZ4Sk1SG9f0X/Vg.qv/NjDS/2VO', NOW(), NOW(), NULL),
+  ('ab391dc5-6a8c-4ebf-9a4d-bbfebdb8a2ed', 'Emma Thomas', 'emma.thomas@example.com', '1992-09-03', 'female', 'https://example.com/images/emma.jpg', 'Dancer and choreographer.', '$2a$10$CwTycUXWue0Thq9StjUM0uJ8VJAZ4Sk1SG9f0X/Vg.qv/NjDS/2VO', NOW(), NOW(), NULL);
+
+
 COMMIT;

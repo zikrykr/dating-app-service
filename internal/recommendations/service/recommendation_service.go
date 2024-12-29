@@ -2,12 +2,15 @@ package service
 
 import (
 	"context"
+	"errors"
+	"time"
 
+	"github.com/dating-app-service/constants"
 	authPort "github.com/dating-app-service/internal/auth/port"
 	"github.com/dating-app-service/internal/recommendations/model"
 	"github.com/dating-app-service/internal/recommendations/payload"
 	"github.com/dating-app-service/internal/recommendations/port"
-	"github.com/dating-app-service/pkg"
+	"gorm.io/gorm"
 )
 
 type RecommendationService struct {
@@ -22,23 +25,57 @@ func NewRecommendationService(repo port.IRecommendationRepo, authRepo authPort.I
 	}
 }
 
-func (s RecommendationService) GetRecommendations(ctx context.Context, req payload.GetRecommendationsReq) ([]model.Recommendation, *pkg.Pagination, error) {
+func (s RecommendationService) GetRecommendation(ctx context.Context, req payload.GetRecommendationsReq) (model.Recommendation, error) {
+	// Get User Data
 	userData, err := s.authRepository.GetUserByEmail(ctx, req.Email)
 	if err != nil {
-		return []model.Recommendation{}, nil, err
+		return model.Recommendation{}, err
 	}
 
-	recommendations, pagination, err := s.repository.GetRecommendations(ctx, payload.GetRecommendationsFilter{
-		UserIDNot:     userData.ID,
-		UserGenderNot: userData.Gender,
+	userIDNotIN := []string{
+		userData.ID,
+	}
 
-		Limit:  pkg.ValidateLimit(req.Limit),
-		Page:   pkg.ValidatePage(req.Page),
-		SortBy: "date_of_birth DESC",
+	// Get User Recommendation Tracker
+	// to check how much user recommendation retrieved on today
+	currDate := time.Now()
+	trackerData, err := s.repository.GetUserRecommendationTracker(ctx, payload.GetUserRecommendationTrackerFilter{
+		UserID:      userData.ID,
+		TrackerDate: currDate,
+	})
+	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+		return model.Recommendation{}, err
+	}
+
+	if !userData.IsPremium {
+		if len(trackerData) >= constants.MAX_LIMIT_FREE_USERS {
+			return model.Recommendation{}, errors.New("max limit recommendations has been reached for today")
+		}
+	}
+
+	if len(trackerData) > 0 {
+		for _, tracker := range trackerData {
+			userIDNotIN = append(userIDNotIN, tracker.SeenUserID)
+		}
+	}
+
+	recommendations, err := s.repository.GetRecommendation(ctx, payload.GetRecommendationsFilter{
+		UserIDNotIN:   userIDNotIN,
+		UserGenderNot: userData.Gender,
+		SortBy:        "date_of_birth DESC",
 	})
 	if err != nil {
-		return []model.Recommendation{}, nil, err
+		return model.Recommendation{}, err
 	}
 
-	return recommendations, pagination, nil
+	// Create / Update Recommendation Tracker
+	if err := s.repository.CreateUserRecommendationTracker(ctx, model.UserRecommendationTracker{
+		UserID:      userData.ID,
+		SeenUserID:  recommendations.ID,
+		TrackerDate: currDate,
+	}); err != nil {
+		return model.Recommendation{}, err
+	}
+
+	return recommendations, nil
 }

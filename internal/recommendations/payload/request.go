@@ -1,18 +1,24 @@
 package payload
 
+import "time"
+
 type (
 	GetRecommendationsFilter struct {
-		UserIDNot     string
+		UserIDNotIN   []string
 		UserGenderNot string
 
-		Limit  int
-		Page   int
-		SortBy string
+		Limit    int
+		MaxLimit int
+		Page     int
+		SortBy   string
+	}
+
+	GetUserRecommendationTrackerFilter struct {
+		UserID      string
+		TrackerDate time.Time
 	}
 
 	GetRecommendationsReq struct {
 		Email string `json:"email"`
-		Limit int    `form:"limit"`
-		Page  int    `form:"page"`
 	}
 )

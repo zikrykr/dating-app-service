@@ -1,0 +1,5 @@
+BEGIN;
+
+ALTER TABLE users ADD COLUMN is_premium boolean DEFAULT FALSE;
+
+COMMIT;

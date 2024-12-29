@@ -7,7 +7,6 @@ import (
 	"github.com/dating-app-service/internal/recommendations/model"
 	"github.com/dating-app-service/internal/recommendations/payload"
 	"github.com/dating-app-service/internal/recommendations/port"
-	"github.com/dating-app-service/pkg"
 	"gorm.io/gorm"
 )
 
@@ -19,30 +18,15 @@ func NewRepository(db *db.GormDB) port.IRecommendationRepo {
 	return repository{db: db}
 }
 
-func (r repository) GetRecommendations(ctx context.Context, filter payload.GetRecommendationsFilter) ([]model.Recommendation, *pkg.Pagination, error) {
+func (r repository) GetRecommendation(ctx context.Context, filter payload.GetRecommendationsFilter) (model.Recommendation, error) {
 	var (
-		res          []model.Recommendation
-		totalRecords int64
-		fScopes      []func(db *gorm.DB) *gorm.DB
+		res     model.Recommendation
+		fScopes []func(db *gorm.DB) *gorm.DB
 	)
 
-	pagination := &pkg.Pagination{
-		CurrentPage:     int64(filter.Page),
-		CurrentElements: 0,
-		TotalPages:      0,
-		TotalElements:   0,
-		SortBy:          filter.SortBy,
-	}
-
-	if filter.Page == 0 {
-		filter.Page = 1
-	}
-
-	offset := (filter.Page - 1) * filter.Limit
-
-	if filter.UserIDNot != "" {
+	if len(filter.UserIDNotIN) > 0 {
 		fScopes = append(fScopes, func(db *gorm.DB) *gorm.DB {
-			return db.Where("id != ?", filter.UserIDNot)
+			return db.Where("id NOT IN (?)", filter.UserIDNotIN)
 		})
 	}
 
@@ -58,20 +42,42 @@ func (r repository) GetRecommendations(ctx context.Context, filter payload.GetRe
 
 	query := r.db.WithContext(ctx).Scopes(fScopes...)
 
-	if err := query.Offset(offset).Limit(filter.Limit).Order(filter.SortBy).Find(&res).Error; err != nil {
-		return res, nil, err
+	if err := query.Order(filter.SortBy).Find(&res).Error; err != nil {
+		return res, err
 	}
 
-	query.Count(&totalRecords)
+	return res, nil
+}
 
-	// Update Pagination
-	totalPage := totalRecords / int64(filter.Limit)
-	if totalRecords%int64(filter.Limit) > 0 || totalRecords == 0 {
-		totalPage++
+func (r repository) GetUserRecommendationTracker(ctx context.Context, filter payload.GetUserRecommendationTrackerFilter) ([]model.UserRecommendationTracker, error) {
+	var (
+		res     []model.UserRecommendationTracker
+		fScopes []func(db *gorm.DB) *gorm.DB
+	)
+
+	if filter.UserID != "" {
+		fScopes = append(fScopes, func(db *gorm.DB) *gorm.DB {
+			return db.Where("user_id = ?", filter.UserID)
+		})
 	}
-	pagination.TotalPages = totalPage
-	pagination.CurrentElements = int64(len(res))
-	pagination.TotalElements = totalRecords
 
-	return res, pagination, nil
+	if !filter.TrackerDate.IsZero() {
+		trackerDate := filter.TrackerDate.Format("2006-01-02")
+		fScopes = append(fScopes, func(db *gorm.DB) *gorm.DB {
+			return db.Where("tracker_date = ?", trackerDate)
+		})
+	}
+
+	if err := r.db.WithContext(ctx).Scopes(fScopes...).Find(&res).Error; err != nil {
+		return res, err
+	}
+
+	return res, nil
+}
+
+func (r repository) CreateUserRecommendationTracker(ctx context.Context, data model.UserRecommendationTracker) error {
+	if err := r.db.WithContext(ctx).Create(&data).Error; err != nil {
+		return err
+	}
+	return nil
 }

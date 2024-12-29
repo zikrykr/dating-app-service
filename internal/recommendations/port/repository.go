@@ -5,9 +5,10 @@ import (
 
 	"github.com/dating-app-service/internal/recommendations/model"
 	"github.com/dating-app-service/internal/recommendations/payload"
-	"github.com/dating-app-service/pkg"
 )
 
 type IRecommendationRepo interface {
-	GetRecommendations(ctx context.Context, filter payload.GetRecommendationsFilter) ([]model.Recommendation, *pkg.Pagination, error)
+	GetRecommendation(ctx context.Context, filter payload.GetRecommendationsFilter) (model.Recommendation, error)
+	GetUserRecommendationTracker(ctx context.Context, req payload.GetUserRecommendationTrackerFilter) ([]model.UserRecommendationTracker, error)
+	CreateUserRecommendationTracker(ctx context.Context, data model.UserRecommendationTracker) error
 }
