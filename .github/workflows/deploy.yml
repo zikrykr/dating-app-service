@@ -1,0 +1,32 @@
+name: Deploy to VPS on Tag Push
+
+on:
+  push:
+    tags:
+      - "*"  # Runs when any tag is pushed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set Up SSH Key
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.VPS_SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+        chmod 600 ~/.ssh/id_ed25519
+        ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+
+    - name: Deploy to VPS
+      run: |
+        ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+          cd /home/${{ secrets.VPS_USER }}/apps/dating-app-service
+          git fetch --tags
+          latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
+          git checkout $latest_tag
+          docker-compose down
+          docker-compose up -d --build
+        EOF
