@@ -44,4 +44,4 @@ services:
 
 volumes:
   postgres-data:
-  migrations-data  migrations-data:
+  migrations-data:
