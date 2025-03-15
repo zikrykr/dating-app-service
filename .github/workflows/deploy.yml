@@ -23,7 +23,7 @@ jobs:
     - name: Deploy to VPS
       run: |
         ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-          cd /home/${{ secrets.VPS_USER }}/apps/dating-app-service
+          cd /${{ secrets.VPS_USER }}/apps/dating-app-service
           git fetch --tags
           latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
           git checkout $latest_tag
